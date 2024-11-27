@@ -68,8 +68,6 @@ app.post('/receive-hook', async (req, res) => {
   console.log('Webhook received:', req.body);
   const { data } = req.body;
 
-  // return res.json({ message: 'Webhook received' });
-
   if (data.code === '00') {
 
     const invoice = await Invoice.findOne({ orderCode: data.orderCode });
@@ -80,7 +78,6 @@ app.post('/receive-hook', async (req, res) => {
         { status: 'Paid' },
         { new: true }
       );
-      return res.status(200).json({ message: "Invoice updated to Paid" });
     }
 
     const fund = await Fund.findOne({ orderCode: data.orderCode });
@@ -91,13 +88,9 @@ app.post('/receive-hook', async (req, res) => {
         { status: 'approved' },
         { new: true }
       );
-      return res.status(200).json({ message: "Fund updated to approved" });
     }
-
-    return res.status(404).json({ message: "Neither invoice nor fund found" });
-  } else {
-    return res.status(400).json({ message: "Invalid status code" });
   }
+  res.json();
 });
 
 
