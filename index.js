@@ -54,7 +54,6 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
-
 app.use(upload.any());
 
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
@@ -66,7 +65,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 
 app.post('/receive-hook', async (req, res) => {
+  console.log('Webhook received:', req.body);
   const { data } = req.body;
+
+  // return res.json({ message: 'Webhook received' });
 
   if (data.code === '00') {
 
